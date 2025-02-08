@@ -1,9 +1,7 @@
 package org.cdlkata.checkout;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
-@Data
 @AllArgsConstructor
 public class Checkout {
     private final PriceCalculator priceCalculator;
@@ -17,4 +15,5 @@ public class Checkout {
     public int getTotal() {
         return priceCalculator.calculateTotal(basket);
     }
+
 }

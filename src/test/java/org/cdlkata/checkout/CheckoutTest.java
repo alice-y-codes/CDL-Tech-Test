@@ -3,6 +3,8 @@ package org.cdlkata.checkout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CheckoutTest {
@@ -11,16 +13,19 @@ class CheckoutTest {
 
     @BeforeEach
     void setUp() {
-        checkout = new Checkout();
+
     }
 
     @Test
     void shouldStartWithZeroTotal() {
+        checkout = new Checkout();
+
         assertEquals(0, checkout.getTotal());
     }
 
     @Test
     void shouldCalculateTotalForScannedItems() {
+        checkout = new Checkout(List.of( new PriceModifier('A', 50, 0, 0)));
 
         checkout.scan('A');
         checkout.scan('A');
@@ -31,9 +36,10 @@ class CheckoutTest {
 
     @Test
     void shouldApplySpecialPricingForMultipleItems() {
-        PriceModifier[] priceModifiers = new PriceModifier[] {
+        List<PriceModifier> priceModifiers = List.of(
                 new PriceModifier('A', 50, 130, 3)
-        };
+        );
+
 
         Checkout checkout = new Checkout(priceModifiers);
 
@@ -45,12 +51,12 @@ class CheckoutTest {
     }
 
     @Test
-    void shouldApplyMultiplePricingRules() {
-        PriceModifier[] priceModifiers = new PriceModifier[] {
+    void shouldApplyMultiplePricingModifiers() {
+        List<PriceModifier> priceModifiers = List.of (
                 new PriceModifier('A', 50, 130, 3),
                 new PriceModifier('B', 30, 45, 2),
-                new PriceModifier('C', 20, 0, 0),
-        };
+                new PriceModifier('C', 20, 0, 0)
+                );
 
         Checkout checkout = new Checkout(priceModifiers);
 

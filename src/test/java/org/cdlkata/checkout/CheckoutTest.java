@@ -94,21 +94,4 @@ class CheckoutTest {
 
         assertEquals(130, checkout.getTotal());
     }
-
-    @Test
-    void shouldResetCheckoutForNewTransaction() {
-        Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 130, 3));
-        PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
-        Basket basket = new Basket();
-        checkout = new Checkout(priceCalculator, basket);
-
-        checkout.scan("A");
-        checkout.scan("A");
-        checkout.scan("A");
-        checkout.reset();
-        checkout.scan("Z");
-
-        assertEquals(0, checkout.getTotal());
-    }
 }

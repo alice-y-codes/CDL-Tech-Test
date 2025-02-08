@@ -17,8 +17,4 @@ public class Checkout {
     public int getTotal() {
         return priceCalculator.calculateTotal(basket);
     }
-
-    public void reset() {
-//        basket.clear();
-    }
 }

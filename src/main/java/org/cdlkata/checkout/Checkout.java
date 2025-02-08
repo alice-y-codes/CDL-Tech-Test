@@ -33,12 +33,7 @@ public class Checkout {
         for (PriceModifier priceModifier : priceModifiers) {
             long count = scannedItems.stream().filter(item -> item == priceModifier.getItemName()).count();
 
-            if (count >= priceModifier.getSpecialQuantity() && priceModifier.getSpecialQuantity() != 0) {
-                total += (int) ((count / priceModifier.getSpecialQuantity()) * priceModifier.getSpecialPrice());
-                count %= priceModifier.getSpecialQuantity();
-            }
-
-            total += (int) (count * priceModifier.getPrice());
+            total += priceModifier.getPriceForQuantity((int) count);
         }
 
         return total;

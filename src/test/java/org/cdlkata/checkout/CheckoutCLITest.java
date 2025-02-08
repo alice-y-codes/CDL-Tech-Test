@@ -14,8 +14,7 @@ class CheckoutCLITest {
 
     private Checkout checkout;
 
-    @Test
-    void shouldPrintRunningTotalAfterEachScan() {
+    private CheckoutCLI createCheckoutCLI(Scanner mockScanner) {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
         priceModifiers.put("A", new PriceModifier(50, 130, 3));
         priceModifiers.put("B", new PriceModifier(30, 45, 2));
@@ -25,57 +24,51 @@ class CheckoutCLITest {
 
         Basket basket = new Basket();
         checkout = new Checkout(priceCalculator, basket);
+        return new CheckoutCLI(checkout, mockScanner);
+    }
 
+    private String captureSystemOutput(CheckoutCLI cli) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalSystemOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        Scanner mockScanner = mock(Scanner.class);
-        when(mockScanner.nextLine()).thenReturn("A").thenReturn("B").thenReturn("A").thenReturn("end scan");
-
-
-
-        CheckoutCLI cli = new CheckoutCLI(checkout, mockScanner);
         cli.start();
 
-
-        String output = outputStream.toString();
-
-    assertEquals("Running Total: 50\r\nRunning Total: 80\r\nRunning Total: 130\r\n", output);
-
         System.setOut(originalSystemOut);
+        return outputStream.toString();
     }
 
+    @Test
+    void shouldPrintRunningTotalAfterEachScan() {
+        Scanner mockScanner = mock(Scanner.class);
+        when(mockScanner.nextLine()).thenReturn("A").thenReturn("B").thenReturn("A").thenReturn("done");
+
+        CheckoutCLI cli = createCheckoutCLI(mockScanner);
+        String output = captureSystemOutput(cli);
+
+        assertEquals("Welcome to the checkout system!\r\n" +
+                "Please scan items (e.g., A, B, C, etc.). Type 'done' to finish.\r\n" +
+                "Scan item (or type 'done' to finish): Running total: 50 pence\r\n" +
+                "Scan item (or type 'done' to finish): Running total: 80 pence\r\n" +
+                "Scan item (or type 'done' to finish): Running total: 130 pence\r\n" +
+                "Scan item (or type 'done' to finish): Checkout completed!\r\n" +
+                "Final Total: 130 pence\r\n", output);
+    }
 
     @Test
     void shouldPrintFinalTotalAfterCheckout() {
-        Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 130, 3));
-        priceModifiers.put("B", new PriceModifier(30, 45, 2));
-        priceModifiers.put("C", new PriceModifier(20, 0, 0));
-        priceModifiers.put("D", new PriceModifier(15, 0, 0));
-        PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
-
-
         Scanner mockScanner = mock(Scanner.class);
-        when(mockScanner.nextLine()).thenReturn("A").thenReturn("B").thenReturn("A").thenReturn("end scan").thenReturn("print total");
+        when(mockScanner.nextLine()).thenReturn("A").thenReturn("B").thenReturn("A").thenReturn("done");
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalSystemOut = System.out;
-        System.setOut(new PrintStream(outputStream));
+        CheckoutCLI cli = createCheckoutCLI(mockScanner);
+        String output = captureSystemOutput(cli);
 
-        Basket basket = new Basket();
-
-        checkout = new Checkout(priceCalculator, basket);
-        CheckoutCLI cli = new CheckoutCLI(checkout, mockScanner);
-        cli.start();
-
-        String output = outputStream.toString();
-
-        assertEquals("Running Total: 50\r\n" +
-                "Running Total: 80\r\n" +
-                "Running Total: 130\r\nFinal Total: 130\r\n", output);
-
-        System.setOut(originalSystemOut);
+        assertEquals("Welcome to the checkout system!\r\n" +
+                "Please scan items (e.g., A, B, C, etc.). Type 'done' to finish.\r\n" +
+                "Scan item (or type 'done' to finish): Running total: 50 pence\r\n" +
+                "Scan item (or type 'done' to finish): Running total: 80 pence\r\n" +
+                "Scan item (or type 'done' to finish): Running total: 130 pence\r\n" +
+                "Scan item (or type 'done' to finish): Checkout completed!\r\n" +
+                "Final Total: 130 pence\r\n", output);
     }
 }

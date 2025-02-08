@@ -8,9 +8,8 @@ class PriceModifierTest {
 
     @Test
     void shouldCreatePriceModifier() {
-        PriceModifier priceModifier = new PriceModifier('A', 50, 130, 3);
+        PriceModifier priceModifier = new PriceModifier(50, 130, 3);
 
-        assertEquals('A', priceModifier.getItemName());
         assertEquals(50, priceModifier.getPrice());
         assertEquals(130, priceModifier.getDiscountedPrice());
         assertEquals(3, priceModifier.getDiscountedQuantity());
@@ -18,7 +17,7 @@ class PriceModifierTest {
 
     @Test
     void shouldApplyDiscountedPrice() {
-        PriceModifier priceModifier = new PriceModifier('A', 50, 130, 3);
+        PriceModifier priceModifier = new PriceModifier(50, 130, 3);
 
         assertEquals(130, priceModifier.getPriceForQuantity(3));
         assertEquals(100, priceModifier.getPriceForQuantity(2));
@@ -26,7 +25,7 @@ class PriceModifierTest {
 
     @Test
     void shouldValidateDiscountedOffer() {
-        PriceModifier priceModifier = new PriceModifier('A', 50, 130, 3);
+        PriceModifier priceModifier = new PriceModifier( 50, 130, 3);
 
         assertTrue(priceModifier.isValid());
     }

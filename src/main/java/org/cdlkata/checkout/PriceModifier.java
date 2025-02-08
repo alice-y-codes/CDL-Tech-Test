@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PriceModifier {
-    private final char itemName;
     private final int price;
     private final int discountedPrice;
     private final int discountedQuantity;

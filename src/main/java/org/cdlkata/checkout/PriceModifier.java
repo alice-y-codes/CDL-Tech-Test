@@ -12,12 +12,16 @@ public class PriceModifier {
     private final int discountedQuantity;
 
     public int getPriceForQuantity(int quantity) {
-        if (discountedQuantity != 0 && quantity >= discountedQuantity) {
+        if (discountedQuantity != 0 && isValid()) {
             int fullDiscountSets = quantity / discountedQuantity;
             int remainingQuantity = quantity % discountedQuantity;
             return (fullDiscountSets * discountedPrice) + (remainingQuantity * price);
         } else {
             return quantity * price;
         }
+    }
+
+    public boolean isValid() {
+        return (discountedQuantity > 1 && discountedPrice > 0 && price > 0);
     }
 }

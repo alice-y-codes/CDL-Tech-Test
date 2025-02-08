@@ -27,6 +27,6 @@ class PriceModifierTest {
     void shouldValidateDiscountedOffer() {
         PriceModifier priceModifier = new PriceModifier( 50, 130, 3);
 
-        assertTrue(priceModifier.isValid());
+        assertTrue(priceModifier.isDiscountApplicable());
     }
 }

@@ -21,7 +21,7 @@ class PriceCalculatorTest {
         basket.addItem("A");
         basket.addItem("B");
 
-        assertEquals(80, priceCalculator.calculateTotal(basket));
+        assertEquals(80, priceCalculator.calculateTotalPriceForBasket(basket));
     }
 
     @Test
@@ -37,7 +37,7 @@ class PriceCalculatorTest {
         basket.addItem("A");
         basket.addItem("A");
 
-        assertEquals(130, priceCalculator.calculateTotal(basket));
+        assertEquals(130, priceCalculator.calculateTotalPriceForBasket(basket));
     }
 
 }

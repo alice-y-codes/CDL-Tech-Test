@@ -8,16 +8,19 @@ import java.util.Map;
 public class PriceCalculator {
     private final Map<String, PriceModifier> priceModifiers;
 
-    public int calculateTotal(Basket basket) {
+    public int calculateTotalPriceForBasket(Basket basket) {
         int total = 0;
         for (Map.Entry<String, Integer> entry : basket.getItems().entrySet()) {
-            String itemName = entry.getKey();
-            int quantity = entry.getValue();
-            PriceModifier price = priceModifiers.get(itemName);
-            if (price != null) {
-                total += price.getPriceForQuantity(quantity);
-            }
+            total += calculatePriceForItem(entry.getKey(), entry.getValue());
         }
         return total;
+    }
+
+    private int calculatePriceForItem(String itemName, int quantity) {
+        PriceModifier priceModifier = priceModifiers.get(itemName);
+        if (priceModifier != null) {
+            return priceModifier.getPriceForQuantity(quantity);
+        }
+        return 0;
     }
 }

@@ -69,4 +69,18 @@ class CheckoutTest {
 
         assertEquals(195, checkout.getTotal());
     }
+
+    @Test
+    void shouldHandleUnrecognisedItems() {
+        List<PriceModifier> priceModifiers = List.of(new PriceModifier('A', 50, 130, 3));
+
+        Checkout checkout = new Checkout(priceModifiers);
+
+        checkout.scan('A');
+        checkout.scan('A');
+        checkout.scan('A');
+        checkout.scan('Z');
+
+        assertEquals(130, checkout.getTotal());
+    }
 }

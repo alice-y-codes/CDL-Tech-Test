@@ -4,7 +4,6 @@ import org.cdlkata.checkout.*;
 import org.cdlkata.utils.PriceModifierCSVMapper;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 

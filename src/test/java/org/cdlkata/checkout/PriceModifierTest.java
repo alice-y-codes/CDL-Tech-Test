@@ -23,4 +23,11 @@ class PriceModifierTest {
         assertEquals(130, priceModifier.getPriceForQuantity(3));
         assertEquals(100, priceModifier.getPriceForQuantity(2));
     }
+
+    @Test
+    void shouldValidateDiscountedOffer() {
+        PriceModifier priceModifier = new PriceModifier('A', 50, 130, 3);
+
+        assertTrue(priceModifier.isValid());
+    }
 }

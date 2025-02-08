@@ -43,4 +43,8 @@ public class Checkout {
 
         return total;
     }
+
+    public void reset() {
+        scannedItems.clear();
+    }
 }

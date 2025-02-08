@@ -1,45 +1,24 @@
 package org.cdlkata.checkout;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 public class Checkout {
-    private List<PriceModifier> priceModifiers;
-    private List<Character> scannedItems;
+    private final PriceCalculator priceCalculator;
+    private final Basket basket;
 
-
-    public Checkout(List<PriceModifier> priceModifiers) {
-        this.priceModifiers = priceModifiers;
-        this.scannedItems = new ArrayList<>();
-    }
-
-    public void scan(char item) {
-        scannedItems.add(item);
+    public void scan(String itemName) {
+        basket.addItem(itemName);
 
     }
 
     public int getTotal() {
-        int total = 0;
-
-        if (priceModifiers == null) {
-            return total;
-        }
-
-        for (PriceModifier priceModifier : priceModifiers) {
-            long count = scannedItems.stream().filter(item -> item == priceModifier.getItemName()).count();
-
-            total += priceModifier.getPriceForQuantity((int) count);
-        }
-
-        return total;
+        return priceCalculator.calculateTotal(basket);
     }
 
     public void reset() {
-        scannedItems.clear();
+//        basket.clear();
     }
 }

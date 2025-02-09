@@ -11,7 +11,7 @@ class PriceModifierCSVMapperTest {
 
     @Test
     void testMapToCSV() throws Exception {
-        Map<String, PriceModifier> priceModifiers = PriceModifierCSVMapper.mapCSVToPriceModifiers("src/main/resources/price-modifiers.csv");
+        Map<String, PriceModifier> priceModifiers = PriceModifierCSVMapper.mapCSVToPriceModifiers("src/test/resources/sample-price-modifiers.csv");
 
         assertNotNull(priceModifiers);
         assertEquals(4, priceModifiers.size());

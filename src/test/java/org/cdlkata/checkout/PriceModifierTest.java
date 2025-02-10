@@ -1,32 +1,27 @@
 package org.cdlkata.checkout;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class PriceModifierTest {
 
     @Test
-    void shouldCreatePriceModifier() {
-        PriceModifier priceModifier = new PriceModifier(50, 130, 3);
+    void shouldCreatePriceModifierWithCorrectValues() {
+        Discount mockDiscount = mock(Discount.class);
+        PriceModifier priceModifier = new PriceModifier(100, 80, 3, mockDiscount);
 
-        assertEquals(50, priceModifier.getPrice());
-        assertEquals(130, priceModifier.getDiscountedPrice());
+        assertEquals(100, priceModifier.getPrice());
+        assertEquals(80, priceModifier.getDiscountedPrice());
         assertEquals(3, priceModifier.getDiscountedQuantity());
+        assertEquals(mockDiscount, priceModifier.getDiscount());
     }
 
     @Test
-    void shouldApplyDiscountedPrice() {
-        PriceModifier priceModifier = new PriceModifier(50, 130, 3);
+    void shouldHandleNoDiscount() {
+        PriceModifier priceModifier = new PriceModifier(100, 80, 3, null);
 
-        assertEquals(130, priceModifier.getPriceForQuantity(3));
-        assertEquals(100, priceModifier.getPriceForQuantity(2));
-    }
-
-    @Test
-    void shouldValidateDiscountedOffer() {
-        PriceModifier priceModifier = new PriceModifier( 50, 130, 3);
-
-        assertTrue(priceModifier.isDiscountApplicable());
+        assertNotNull(priceModifier);
+        assertNull(priceModifier.getDiscount());
     }
 }

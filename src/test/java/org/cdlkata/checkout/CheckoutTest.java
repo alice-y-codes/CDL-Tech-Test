@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,13 +14,12 @@ class CheckoutTest {
 
     @BeforeEach
     void setUp() {
-
     }
 
     @Test
     void shouldStartWithZeroTotal() {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 0, 0));
+        priceModifiers.put("A", new PriceModifier(50, 0, 0, new NoDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
         Basket basket = new Basket();
         checkout = new Checkout(priceCalculator, basket);
@@ -32,7 +30,7 @@ class CheckoutTest {
     @Test
     void shouldCalculateTotalForScannedItems() {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 0, 0));
+        priceModifiers.put("A", new PriceModifier(50, 0, 0, new NoDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
         Basket basket = new Basket();
         checkout = new Checkout(priceCalculator, basket);
@@ -47,7 +45,7 @@ class CheckoutTest {
     @Test
     void shouldApplySpecialPricingForMultipleItems() {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 130, 3));
+        priceModifiers.put("A", new PriceModifier(50, 130, 3, new MultiBuyDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
         Basket basket = new Basket();
         checkout = new Checkout(priceCalculator, basket);
@@ -62,9 +60,9 @@ class CheckoutTest {
     @Test
     void shouldApplyMultiplePricingModifiers() {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 130, 3));
-        priceModifiers.put("B", new PriceModifier(30, 45, 2));
-        priceModifiers.put("C", new PriceModifier(20, 10, 0));
+        priceModifiers.put("A", new PriceModifier(50, 130, 3, new MultiBuyDiscount()));
+        priceModifiers.put("B", new PriceModifier(30, 45, 2, new MultiBuyDiscount()));
+        priceModifiers.put("C", new PriceModifier(20, 0, 0, new NoDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
         Basket basket = new Basket();
         checkout = new Checkout(priceCalculator, basket);
@@ -82,7 +80,7 @@ class CheckoutTest {
     @Test
     void shouldHandleUnrecognisedItems() {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 130, 3));
+        priceModifiers.put("A", new PriceModifier(50, 130, 3, new MultiBuyDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
         Basket basket = new Basket();
         checkout = new Checkout(priceCalculator, basket);

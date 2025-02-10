@@ -12,8 +12,8 @@ class PriceCalculatorTest {
     @Test
     void shouldCalculateTotalWithRegularPrices() {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 0 , 0));
-        priceModifiers.put("B", new PriceModifier(30, 0 , 0));
+        priceModifiers.put("A", new PriceModifier(50, 0 , 0, new NoDiscount()));
+        priceModifiers.put("B", new PriceModifier(30, 0 , 0, new NoDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
 
 
@@ -27,7 +27,7 @@ class PriceCalculatorTest {
     @Test
     void shouldCalculateTotalWithDiscountedPrices() {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 130, 3));
+        priceModifiers.put("A", new PriceModifier(50, 130, 3, new MultiBuyDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
 
 

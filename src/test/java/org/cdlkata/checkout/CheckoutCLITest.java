@@ -16,10 +16,10 @@ class CheckoutCLITest {
 
     private CheckoutCLI createCheckoutCLI(Scanner mockScanner) {
         Map<String, PriceModifier> priceModifiers = new HashMap<>();
-        priceModifiers.put("A", new PriceModifier(50, 130, 3));
-        priceModifiers.put("B", new PriceModifier(30, 45, 2));
-        priceModifiers.put("C", new PriceModifier(20, 0, 0));
-        priceModifiers.put("D", new PriceModifier(15, 0, 0));
+        priceModifiers.put("A", new PriceModifier(50, 130, 3, new MultiBuyDiscount()));
+        priceModifiers.put("B", new PriceModifier(30, 45, 2, new MultiBuyDiscount()));
+        priceModifiers.put("C", new PriceModifier(20, 0, 0, new NoDiscount()));
+        priceModifiers.put("D", new PriceModifier(15, 0, 0, new NoDiscount()));
         PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
 
         Basket basket = new Basket();

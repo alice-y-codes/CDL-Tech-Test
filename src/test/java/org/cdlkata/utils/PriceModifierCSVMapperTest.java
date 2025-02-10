@@ -1,5 +1,6 @@
 package org.cdlkata.utils;
 
+import org.cdlkata.checkout.MultiBuyDiscount;
 import org.cdlkata.checkout.PriceModifier;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +20,7 @@ class PriceModifierCSVMapperTest {
         assertEquals(50, priceModifiers.get("A").getPrice());
         assertEquals(130, priceModifiers.get("A").getDiscountedPrice());
         assertEquals(3, priceModifiers.get("A").getDiscountedQuantity());
+        assertInstanceOf(MultiBuyDiscount.class, priceModifiers.get("A").getDiscount());
     }
 
 }

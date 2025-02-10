@@ -40,4 +40,17 @@ class PriceCalculatorTest {
         assertEquals(130, priceCalculator.calculateTotalPriceForBasket(basket));
     }
 
+    @Test
+    void shouldHandleNullDiscount() {
+        Map<String, PriceModifier> priceModifiers = new HashMap<>();
+        priceModifiers.put("A", new PriceModifier(50, 0, 0, null));
+        PriceCalculator priceCalculator = new PriceCalculator(priceModifiers);
+
+        Basket basket = new Basket();
+        basket.addItem("A");
+
+        assertEquals(50, priceCalculator.calculateTotalPriceForBasket(basket));
+    }
+
+
 }

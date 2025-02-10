@@ -22,7 +22,7 @@ public class PriceCalculator {
             int price = priceModifier.getPrice();
             int discountedPrice = priceModifier.getDiscountedPrice();
             int discountedQuantity = priceModifier.getDiscountedQuantity();
-            Discount discount = priceModifier.getDiscount();
+            Discount discount = priceModifier.getDiscount() != null ? priceModifier.getDiscount() : new NoDiscount();
 
             return discount.calculatePrice(quantity, price, discountedPrice, discountedQuantity);
         }

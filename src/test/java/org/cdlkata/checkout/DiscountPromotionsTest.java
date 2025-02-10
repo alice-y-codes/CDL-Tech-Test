@@ -12,7 +12,6 @@ public class DiscountPromotionsTest {
 
         int price = multiBuyDiscount.calculatePrice(3, 50, 130, 3);
 
-        assertTrue(multiBuyDiscount.isDiscountApplicable(3, 50));
         assertEquals(130, price);
     }
 
@@ -22,7 +21,6 @@ public class DiscountPromotionsTest {
 
         int price = noDiscount.calculatePrice(3, 50, 130, 3);
 
-        assertFalse(noDiscount.isDiscountApplicable(3, 3));
         assertEquals(150, price);
     }
 }

@@ -1,6 +1,9 @@
 package org.cdlkata.utils;
 
 import com.opencsv.CSVReader;
+import org.cdlkata.checkout.Discount;
+import org.cdlkata.checkout.MultiBuyDiscount;
+import org.cdlkata.checkout.NoDiscount;
 import org.cdlkata.checkout.PriceModifier;
 
 import java.io.FileReader;
@@ -25,8 +28,10 @@ public class PriceModifierCSVMapper {
                 int unitPrice = Integer.parseInt(record[1].trim());
                 int specialPrice = Integer.parseInt(record[2].trim());
                 int specialQuantity = Integer.parseInt(record[3].trim());
+                String discountType = record[4].trim();
+                Discount discount = createDiscount(discountType);
 
-                PriceModifier price = new PriceModifier(unitPrice, specialPrice, specialQuantity);
+                PriceModifier price = new PriceModifier(unitPrice, specialPrice, specialQuantity, discount);
                 priceModifiers.put(itemName, price);
             }
         } catch (Exception e) {
@@ -35,5 +40,12 @@ public class PriceModifierCSVMapper {
         }
 
         return priceModifiers;
+    }
+
+    private static Discount createDiscount(String type) {
+        return switch (type) {
+            case "MultiBuy" -> new MultiBuyDiscount();
+            default -> new NoDiscount();
+        };
     }
 }

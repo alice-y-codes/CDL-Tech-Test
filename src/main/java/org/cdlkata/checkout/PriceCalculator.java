@@ -19,8 +19,14 @@ public class PriceCalculator {
     private int calculatePriceForItem(String itemName, int quantity) {
         PriceModifier priceModifier = priceModifiers.get(itemName);
         if (priceModifier != null) {
-            return priceModifier.getPriceForQuantity(quantity);
+            int price = priceModifier.getPrice();
+            int discountedPrice = priceModifier.getDiscountedPrice();
+            int discountedQuantity = priceModifier.getDiscountedQuantity();
+            Discount discount = priceModifier.getDiscount();
+
+            return discount.calculatePrice(quantity, price, discountedPrice, discountedQuantity);
         }
+
         return 0;
     }
 }
